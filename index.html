@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Direitos da Personalidade BR/PY - Prof. Adriano Március</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Mono&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+--azul: #1a3a6e; --azul2: #2563eb; --azul3: #3b82f6; --ouro: #c9a84c; --ouro2: #f0c96a;
+--bg: #0d1b2a; --bg2: #112240; --card: rgba(255,255,255,0.05);
+--txt: #e8edf5; --txt2: #9db4cc; --verde: #22c55e; --verm: #ef4444; --amarelo: #fbbf24;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--txt); height: 100vh; overflow: hidden; cursor: none; }
+#cursor { width: 14px; height: 14px; border: 2px solid var(--ouro); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; transition: transform .1s ease; mix-blend-mode: difference; }
+#cursor.big { transform: scale(3); opacity: .5; }
+#progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--ouro), var(--azul3)); transition: width .4s ease; z-index: 100; width: 0%; }
+.slide { display: none; position: absolute; inset: 0; flex-direction: column; justify-content: center; align-items: center; padding: 60px 80px; animation: slideIn .45s cubic-bezier(.22,1,.36,1); }
+.slide.active { display: flex; }
+@keyframes slideIn { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+.slide.capa { background: linear-gradient(145deg, #0a1628 0%, #112240 50%, #0d1b2a 100%); }
+.slide.pratica { background: linear-gradient(145deg, #0a1a0e, #0d1b2a); }
+.capa-inner { display: flex; flex-direction: column; align-items: center; gap: 18px; position: relative; z-index: 1; }
+.badge { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 4px; color: var(--ouro); text-transform: uppercase; border: 1px solid rgba(201,168,76,.4); padding: 6px 18px; border-radius: 40px; }
+.capa-title { font-family: 'Playfair Display', serif; font-size: clamp(34px, 5vw, 55px); font-weight: 900; line-height: 1.1; text-align: center; background: linear-gradient(135deg, #ffffff 30%, var(--ouro2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.capa-sub { font-size: 16px; color: var(--txt2); letter-spacing: 3px; text-transform: uppercase; }
+.author { font-size: 15px; color: var(--ouro); font-weight: 600; margin-top: 4px; }
+.slide-header { position: relative; z-index: 1; text-align: center; margin-bottom: 24px; width: 100%; }
+.slide-num { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--ouro); text-transform: uppercase; margin-bottom: 8px; }
+.slide-title { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px); font-weight: 700; color: #fff; line-height: 1.2; }
+.title-line { width: 60px; height: 3px; background: linear-gradient(90deg, var(--ouro), var(--azul3)); margin: 10px auto 0; border-radius: 2px; }
+.questao-box { background: rgba(37,99,235,.08); border: 1px solid rgba(37,99,235,.25); border-radius: 16px; padding: 22px 26px; width: 100%; max-width: 820px; position: relative; z-index: 1; }
+.q-enunciado { font-size: 15px; line-height: 1.65; color: var(--txt); margin-bottom: 14px; }
+.q-opcoes { display: flex; flex-direction: column; gap: 8px; }
+.q-opcao { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 16px; cursor: pointer; font-size: 14px; color: var(--txt2); transition: all 0.2s ease; text-align: left; }
+.q-opcao:hover { background: rgba(255,255,255,0.1); border-color: var(--azul3); color: #fff; }
+.q-opcao.certa { background: rgba(34,197,94,0.15); border-color: var(--verde); color: var(--verde); }
+.q-opcao.errada { background: rgba(239,68,68,0.12); border-color: var(--verm); color: var(--verm); }
+.q-feedback { margin-top: 12px; padding: 12px 16px; border-radius: 10px; font-size: 14px; display: none; }
+.q-feedback.certa { background: rgba(34,197,94,0.12); color: #86efac; display: block; }
+.q-feedback.errada { background: rgba(239,68,68,0.10); color: #fca5a5; display: block; }
+#nav { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; z-index: 200; background: rgba(13,27,42,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; padding: 10px 20px; }
+.nav-btn { background: none; border: 1px solid rgba(255,255,255,0.2); color: var(--txt2); border-radius: 50%; width: 34px; height: 34px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 18px; }
+.nav-btn:hover { background: var(--ouro); color: #000; border-color: var(--ouro); }
+#slide-counter { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--txt2); min-width: 80px; text-align: center; }
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="progress-bar"></div>
+
+<div class="slide capa active">
+<div class="capa-inner">
+<div class="badge">Avaliação Interativa</div>
+<div class="capa-title">Direitos da Personalidade:<br>Análise BR / PY</div>
+<div class="capa-sub">Simulado de Revisão: 40 Questões</div>
+<div class="author">Prof. Adriano Március de Souza</div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 01</div><div class="slide-title">Fundamento Constitucional</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Qual é o principal fundamento constitucional que serve de base para a proteção dos Direitos da Personalidade no ordenamento brasileiro?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A legalidade é um princípio administrativo, não a matriz existencial.')">A) O Princípio da Legalidade Estrita.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! A dignidade (Art. 1º, III, CF) é a cláusula geral e o núcleo que irradia a proteção à personalidade.')">B) O Princípio da Dignidade da Pessoa Humana.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A autonomia rege contratos, mas os direitos da personalidade são, em regra, indisponíveis.')">C) O Princípio da Autonomia da Vontade.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Regula direitos reais e patrimoniais, não a pessoa em si.')">D) O Princípio da Função Social da Propriedade.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 02</div><div class="slide-title">Características (Art. 11)</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">De acordo com o Art. 11 do Código Civil, qual das alternativas abaixo NÃO representa uma característica dos direitos da personalidade?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'É característica real. Não se transfere a titularidade da honra.')">A) Intransmissibilidade.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'É característica real. Não se pode abrir mão definitivamente.')">B) Irrenunciabilidade.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! Os direitos da personalidade são IMPENHORÁVEIS. Eles não podem ser tomados para pagar dívidas.')">C) Penhorabilidade.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'É característica real. Não se perde o direito pelo tempo.')">D) Imprescritibilidade.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 03</div><div class="slide-title">Cessão de Imagem</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Uma pessoa pode assinar contrato cedendo o uso de sua imagem para propaganda? Como o Direito encara isso frente à irrenunciabilidade?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A lei não proíbe a exploração econômica da imagem consentida.')">A) É proibido, pois a imagem é intocável comercialmente.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Perfeito! O que a lei veda é a renúncia absoluta. A limitação voluntária e temporária do EXERCÍCIO do direito é lícita.')">B) É permitido, pois admite-se a limitação voluntária e temporária do exercício do direito.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O direito não é alienado (vendido) definitivamente, apenas licenciado.')">C) É permitido, configurando alienação definitiva do direito.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não há limitação de idade mínima de 60 anos.')">D) É proibido, exceto para maiores de 60 anos.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 04</div><div class="slide-title">Tutela Jurisdicional</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Segundo o Art. 12 do CC, a pessoa pode exigir que a ofensa a um direito da personalidade cesse. Como se chama essa tutela que visa parar a agressão?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A tutela reparatória visa compensar o dano já causado em dinheiro.')">A) Tutela Reparatória.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! A tutela inibitória (ou específica) tem foco preventivo/interruptivo, visando estancar a ofensa.')">B) Tutela Inibitória.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'É sinônimo de reparatória (dinheiro).')">C) Tutela Ressarcitória.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Ação possessória para recuperar bens materiais.')">D) Tutela Reivindicatória.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 05</div><div class="slide-title">Proteção Pós-Morte</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Em caso de ofensa à memória de pessoa falecida, quem possui legitimidade para requerer medidas judiciais (Art. 12, p.ú.)?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não há legitimidade universal (ação popular) para isso.')">A) Qualquer cidadão brasileiro ofendido com o fato.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A legitimidade primária aqui é da família, não do MP.')">B) Exclusivamente o Ministério Público.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Exato! A lei restringe aos parentes mais próximos: cônjuge/companheiro, linha reta ou colateral até 4º grau.')">C) O cônjuge sobrevivente, parentes em linha reta ou colateral até 4º grau.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não depende de testamento, mas do vínculo familiar legal.')">D) Apenas os herdeiros testamentários.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 06</div><div class="slide-title">Integridade Física</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">O Art. 13 do CC proíbe disposição do corpo quando importar diminuição permanente da integridade física. Qual é a exceção expressa?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A disposição do corpo não pode ser comercializada jamais.')">A) Quando houver pagamento superior a cem salários mínimos.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Perfeito! Intervenções necessárias à saúde e doação de órgãos (transplantes) são as exceções legais.')">B) Por exigência médica (terapêutica) ou para transplantes previstos em lei.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A incapacidade agrava a restrição, não a facilita.')">C) Apenas se a pessoa for declarada incapaz.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Proibido contrariar os bons costumes ou causar mutilação por fanatismo.')">D) Mutilação exigida para ingresso em seita.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 07</div><div class="slide-title">Autonomia do Paciente</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Um paciente recusa-se a passar por tratamento médico arriscado que poderia salvar sua vida. O médico pode forçá-lo ao procedimento?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'O ordenamento garante a recusa terapêutica para pacientes capazes.')">A) Sim, pois o direito à vida sobrepõe-se à vontade.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Gabarito! O Art. 15 do CC consagra o princípio do consentimento informado e a autonomia corporal do paciente capaz.')">B) Não, pois ninguém pode ser constrangido a submeter-se, com risco de vida, a tratamento.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não se força adulto capaz com a polícia para tratamentos médicos.')">C) Sim, com autorização do MP e força policial.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A autonomia vale em hospitais públicos ou privados.')">D) Não, exceto se estiver internado em hospital público.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 08</div><div class="slide-title">Disposição Pós-Morte</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Sobre a disposição gratuita do próprio corpo para depois da morte (Art. 14 do CC), é correto afirmar que:</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A disposição do corpo não pode ser engessada irrevogavelmente.')">A) O ato de disposição é irrevogável após registrado em cartório.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! O parágrafo único do Art. 14 garante que a pessoa pode mudar de ideia e revogar a doação a qualquer tempo em vida.')">B) É válida e o ato pode ser livremente revogado a qualquer tempo.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Pode ser para desconhecidos ou fins científicos.')">C) Só é permitida para beneficiar parentes.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A doação do corpo deve ser estritamente gratuita.')">D) A lei obriga pagamento de compensação aos herdeiros.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 09</div><div class="slide-title">Lei de Transplantes</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Apesar da vontade do falecido, como a atual Lei de Transplantes brasileira (Lei 9.434/97) regula a retirada de órgãos pós-morte?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A legislação foi alterada para exigir a palavra da família.')">A) A vontade do morto é absoluta, sem interferência da família.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Exato! Atualmente, o consentimento familiar é obrigatório para a doação de órgãos pós-morte no Brasil.')">B) A retirada depende da autorização do cônjuge ou parente até 2º grau.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O modelo presumido vigorou nos anos 90, mas já foi revogado.')">C) Todos são doadores presumidos, salvo recusa no RG.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A autorização é extrajudicial, dada à equipe médica.')">D) Apenas o juiz pode autorizar a retirada.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 10</div><div class="slide-title">Direito ao Nome</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Segundo o Art. 17 do CC, o nome de uma pessoa pode ser usado em publicações que a exponham ao desprezo público?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Humor não é salvo-conduto absoluto para o vilipêndio.')">A) Sim, desde que declaradamente humorística.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! O Art. 17 proíbe o uso que exponha ao desprezo, mesmo que não haja intenção difamatória (animus difamandi).')">B) Não, ainda que não haja intenção difamatória.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Veracidade não autoriza expor o nome a desprezo gratuito.')">C) Sim, se a informação publicada for verdadeira.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Políticos têm privacidade menor, mas não exceção ao mero desprezo público gratuito.')">D) Não, salvo se for agente político.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 11</div><div class="slide-title">O Nome no Comércio</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">O Art. 18 do CC veda estritamente o uso do nome alheio sem autorização em qual situação específica?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Ficção não comercial tem amparo na liberdade de expressão.')">A) Em peças teatrais ficcionais sem lucro.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! É vedado usar o nome alheio em PROPAGANDA COMERCIAL sem autorização para obter lucro.')">B) Em propaganda comercial.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Uso jornalístico é protegido pela liberdade de imprensa.')">C) Em notícias jornalísticas.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não configura exploração econômica.')">D) Em trabalhos acadêmicos.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 12</div><div class="slide-title">Proteção ao Pseudônimo</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Qual é a proteção jurídica concedida ao Pseudônimo (nome artístico) pelo Art. 19 do Código Civil?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'certa', 'Exato! Se adotado para atividades lícitas, o pseudônimo ganha a exata mesma proteção do nome de batismo civil.')">A) Goza da mesma proteção que se dá ao nome, desde que em atividades lícitas.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Ele possui expressa proteção cível no Art. 19.')">B) Protegido apenas pelo Direito Autoral.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A proteção decorre do uso social, não do registro na biblioteca.')">C) Apenas se registrado na Biblioteca Nacional.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O uso indevido de pseudônimo alheio gera as mesmas sanções.')">D) Pode ser usado livremente, pois não consta em certidão.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 13</div><div class="slide-title">Direito à Imagem</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">A doutrina costuma dividir a proteção do Direito à Imagem em duas vertentes. Quais são elas?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Termos não utilizados pela doutrina civilista.')">A) Imagem-pública e Imagem-estatal.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Perfeito. Imagem-retrato é o traço físico; Imagem-atributo é a boa fama e reputação da pessoa na sociedade.')">B) Imagem-retrato (físico) e Imagem-atributo (reputação).</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A imagem não se restringe ao aspecto financeiro.')">C) Imagem-visual e Imagem-financeira.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Apenas divisão do meio de reprodução técnica.')">D) Imagem-fotográfica e Imagem-cinematográfica.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 14</div><div class="slide-title">Imagem e STJ</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Segundo a Súmula 403 do STJ, o que ocorre na publicação não autorizada de imagem para fins comerciais?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A súmula veio exatamente para dispensar essa prova difícil.')">A) Indenização devida só se provar grave abalo financeiro.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! A exploração lucrativa não autorizada fere o direito, sendo o dano presumido (in re ipsa), sem precisar provar choro ou dor.')">B) A indenização independe de prova do prejuízo (dano in re ipsa).</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A tutela inibitória acumula-se com a financeira.')">C) O juiz apenas manda retirar a imagem, sem indenizar.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A indenização vai para a vítima retratada.')">D) O valor vai para fundos estatais.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 15</div><div class="slide-title">Privacidade (Art. 21)</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">A vida privada é inviolável. Qual medida o juiz adotará caso haja violação iminente?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Esperar o fim perpetuaria a violação.')">A) Arbitrará indenização apenas no final do processo.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Perfeito! O art. 21 consagra a tutela específica: adotar providências para IMPEDIR ou CESSAR os atos.')">B) Adotará as providências necessárias para impedir ou fazer cessar atos contrários.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A proteção é cível, independe de configurar crime criminal.')">C) Acionará o MP para crime de calúnia.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'As esferas trabalhista e civil não se anulam assim.')">D) Anula os contratos de trabalho do ofendido.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 16</div><div class="slide-title">Biografias e o STF</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">No julgamento da ADI 4815, o STF decidiu sobre as biografias não autorizadas. Qual foi a decisão?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Essa era a regra que o STF derrubou.')">A) Só podem ser publicadas com autorização registrada em cartório.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Exato! O STF julgou inconstitucional a censura prévia (não precisa autorizar), cabendo reparação apenas a posteriori se houver abusos.')">B) Não é exigível autorização prévia, prevalecendo a liberdade de expressão.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O STF não isentou a responsabilidade por calúnias futuras.')">C) A publicação é livre e isenta de processos por mentiras.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Alcança tanto vivos quanto mortos.')">D) Apenas biografias de pessoas falecidas não precisam de aval.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 17</div><div class="slide-title">Direito ao Esquecimento</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">No Tema 786, o STF julgou o chamado 'Direito ao Esquecimento'. O que o tribunal definiu?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'O STF não acolheu esse direito.')">A) É absoluto e permite apagar crimes com mais de 5 anos.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Gabarito! O STF decidiu que o direito ao esquecimento genérico é incompatível com a CF, protegendo a memória histórica e a informação verdadeira.')">B) É incompatível com a CF, não podendo impedir divulgação de fatos verídicos passados.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A prescrição penal não gera o apagamento histórico.')">C) Aplica-se apenas para crimes prescritos.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Isso seria censura privada.')">D) Obriga plataformas de internet a apagar qualquer notícia.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 18</div><div class="slide-title">Identidade de Gênero</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Sobre a alteração de prenome e gênero por pessoas trans (ADI 4275), o STF decidiu que:</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'O STF derrubou essas exigências violentas.')">A) Exige cirurgia de transgenitalização e laudo psiquiátrico.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A via judicial não é mais obrigatória.')">B) Deve ser feita obrigatoriamente por ação judicial.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! Baseado na autodeterminação, permite-se alterar diretamente no cartório, sem laudos ou cirurgias.')">C) Pode ser feita diretamente em cartório, sendo desnecessária cirurgia ou laudos.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A alteração civil tem caráter permanente.')">D) É provisória e renovada a cada 10 anos.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 19</div><div class="slide-title">Intimidade vs. Privacidade</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Qual é a distinção doutrinária entre Intimidade e Privacidade?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Invertido e com foco em trabalho.')">A) Intimidade é o trabalho, Privacidade são os pensamentos.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Perfeito. A teoria dos círculos: intimidade é o núcleo duro/secreto (diários); privacidade é o entorno amplo (rotina familiar).')">B) Intimidade é a esfera restrita/secreta; Privacidade é o círculo mais amplo (rotina).</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A doutrina civilista faz distinção de graus.')">C) São sinônimos sem distinção legal.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Conceitos são existenciais, não apenas de sigilo bancário.')">D) Privacidade é banco, intimidade é foto.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 20</div><div class="slide-title">Honra Subjetiva</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">A ofensa à 'Honra Subjetiva' de um indivíduo atinge diretamente:</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Isso é Honra Objetiva.')">A) A reputação perante a sociedade e colegas.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Exato! Subjetivo = sujeito = como ele se sente. Atinge a autoestima, a dignidade interna (ex: injúria).')">B) A autoestima da pessoa e o juízo que ela faz de si mesma.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Isso é imagem financeira/objetiva.')">C) O seu crédito na praça (score).</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não anula contratos civis.')">D) A validade de seus contratos comerciais.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 21</div><div class="slide-title">Personalidade da PJ</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">O Código Civil estende a proteção dos Direitos da Personalidade às Pessoas Jurídicas?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'O Direito reconhece que a empresa possui atributos morais protegidos.')">A) Não, pois não têm sentimentos ou moral.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A proteção vai além, englobando o nome e a honra.')">B) Sim, mas apenas o direito autoral.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! O Art. 52 garante que a PJ receba tutela naquilo que for compatível com sua natureza.')">C) Sim, aplica-se às PJs, no que couber, a proteção dos direitos da personalidade.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O CC/02 foi quem positivou isso.')">D) Não, o CC/02 revogou essa proteção.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 22</div><div class="slide-title">STJ e o Dano Moral</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">De acordo com a Súmula 227 do STJ, a Pessoa Jurídica pode sofrer dano moral?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não sofre dor psicológica, mas sofre abalo moral no mercado.')">A) Não, a angústia é exclusiva da alma humana.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O dano da PJ é independente dos sócios.')">B) Sim, se comprovar depressão dos sócios.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Perfeito! O STJ pacificou que a ofensa à credibilidade e imagem da empresa (honra objetiva) gera o dever de indenizar.')">C) Sim, a PJ pode sofrer dano moral quando ofendida sua honra objetiva.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Vale para fundações e empresas lucrativas.')">D) Apenas fundações de caridade podem.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 23</div><div class="slide-title">Proteção à Voz</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">A voz humana é considerada um aspecto protegido pelos Direitos da Personalidade?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A voz é um traço singular de identificação.')">A) Não, a voz é pública e sem proteção civil.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Exato! A voz integra a imagem sonora do sujeito, sendo ilícito cloná-la com IA ou usá-la comercialmente sem aval.')">B) Sim, o direito à voz é protegido autonomamente contra uso não autorizado.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A voz falada também tem proteção.')">C) Só é protegida se estiver cantando música autoral.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Gera dano material e moral (dinheiro).')">D) Sim, mas a pena é apenas pedido de desculpas.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 24</div><div class="slide-title">Extrapatrimonialidade</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">O que prescreve o princípio da 'Extrapatrimonialidade' nos direitos da personalidade?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! Eles não têm um preço de mercado e não podem ser vendidos. Porém, se violados, o juiz arbitra uma compensação em dinheiro.')">A) Eles não têm valor econômico no comércio, mas sua lesão gera reparação em dinheiro.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A dignidade não é ação de bolsa.')">B) Podem ser alienados na bolsa de valores.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A lesão moral é reparada pecuniariamente.')">C) Nunca geram indenização, apenas retratação.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A despatrimonialização pôs a dignidade acima dos bens.')">D) O patrimônio está acima da dignidade no CC.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 25</div><div class="slide-title">Colisão de Direitos</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Na colisão entre Direito à Informação e Privacidade de pessoa pública, o juiz deve:</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Nenhum direito fundamental é absoluto.')">A) Sempre dar vitória à imprensa.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Censurar notícias de figuras públicas fere a informação coletiva.')">B) Sempre proibir notícias sobre famosos.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Exato! A técnica da ponderação (proporcionalidade) analisa o grau de interesse público frente à intimidade devassada.')">C) Utilizar a técnica da ponderação analisando o caso concreto e o interesse público.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não se decide com júri ou sorteio.')">D) Sortear a decisão no Tribunal.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 26</div><div class="slide-title">Dados Pessoais (LGPD)</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Em relação à Lei Geral de Proteção de Dados (LGPD), a proteção dos dados pessoais hoje integra:</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não tem foco puramente tributário.')">A) Apenas o campo Tributário.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! Os dados formam a identidade digital e são tratados como direitos da personalidade (autodeterminação informativa).')">B) A extensão dos Direitos da Personalidade, garantindo autodeterminação digital.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A LGPD veio para limitar o poder das Big Techs.')">C) O patrimônio exclusivo das grandes empresas de tecnologia.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Aplica-se ao Estado e também às empresas privadas.')">D) Restrita a órgãos governamentais.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 27</div><div class="slide-title">Deepfakes e a IA</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Se uma IA cria um 'deepfake' (vídeo falso) com o rosto e voz de uma pessoa em situação humilhante, quais direitos foram violados?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A ofensa atinge o alvo clonado.')">A) Apenas os direitos autorais do software.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Gabarito! O deepfake usurpa a imagem, a voz (imagem sonora) e destrói a honra e a identidade do titular.')">B) A imagem, a voz, a honra e a identidade pessoal.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O criador humano responde pelo uso do algoritmo.')">C) Nenhum, pois a lei não pune computadores.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Atinge a honra mesmo que o fundo seja público.')">D) Intimidade só se o vídeo for num quarto.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 28</div><div class="slide-title">Reality Shows e a Lei</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Um participante de reality show é filmado 24h por dia em vulnerabilidade. Isso é legalmente válido?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A exposição é lícita devido ao consentimento assinado.')">A) Não, é crime e os contratos são nulos.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Perfeito! É lícito pois assinou a limitação VOLUNTÁRIA e TEMPORÁRIA do EXERCÍCIO de sua privacidade.')">B) Sim, pela limitação voluntária e remunerada do exercício de direitos de imagem.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não se perde o direito de forma definitiva (irrenunciabilidade).')">C) Sim, ele perde definitivamente os direitos de personalidade.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Emissoras pagam caro se abusarem e descumprirem o limite.')">D) Não, mas emissoras são imunes a multas.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 29</div><div class="slide-title">Imprescritibilidade</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">A característica da 'Imprescritibilidade' dos direitos da personalidade significa que:</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Cuidado! O dinheiro (indenização) prescreve (3 anos). O direito à honra não.')">A) Qualquer ação cobrando dinheiro tem prazo infinito de 50 anos.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Exato! O núcleo do direito não morre. Ninguém perde o direito à vida ou ao nome só porque o tempo passou.')">B) O não uso ou a passagem do tempo não extingue o direito à proteção em si.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não poder penhorar é impenhorabilidade.')">C) Eles não podem ser penhorados para pagar dívidas.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Prescrição jurídica não é prescrição médica.')">D) Só existem se prescritos por médicos.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 30</div><div class="slide-title">Direitos do Nascituro</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">No que tange aos direitos do nascituro (no útero), o Código Civil determina que:</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Ele tem direito à vida e alimentos gravídicos.')">A) Não tem direito nenhum fora do útero.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Exato (Art. 2º CC). A capacidade plena começa no nascimento com vida, MAS a lei põe a salvo desde a concepção os direitos.')">B) A personalidade começa no nascimento com vida, mas a lei resguarda os direitos desde a concepção.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O Brasil não adotou a teoria concepcionista absoluta.')">C) Adquire personalidade plena no ato da concepção.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Proteção é imposição da Lei Civil.')">D) Depende do Ministério da Saúde.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 31</div><div class="slide-title">Verdade vs Privacidade</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Se a imprensa publica intimidade verdadeira sobre alguém que não é famoso, como a lei resolve?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A verdade não autoriza invadir a vida privada de anônimos.')">A) Sendo verdade, não há ofensa à intimidade.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Perfeito. Falta interesse público. Para pessoas comuns, o resguardo da vida privada vence a fofoca.')">B) Protege-se a privacidade, pois faltam interesse público e utilidade social na devassa.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Estar na rua não torna a doença de alguém um fato de interesse nacional.')">C) A imprensa ganha se a pessoa estiver em local aberto.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Traição é irrelevante; haveria crime contra a honra ou ação cível.')">D) Processa-se criminalmente por traição.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 32</div><div class="slide-title">Patronímico</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">O direito ao nome engloba o prenome e o patronímico. O que é o patronímico?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Apelido é designação informal (alcunha).')">A) O apelido recebido na infância.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! O patronímico é o elemento que transmite a herança/linhagem da família (sobrenome).')">B) O sobrenome, que indica a ancestralidade e a linhagem familiar.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O Brasil republicano aboliu isso.')">C) O título de nobreza do Estado.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'As arrobas não compõem a estrutura jurídica.')">D) A abreviação das redes sociais.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 33</div><div class="slide-title">Alteração de Prenome</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Qual foi a inovação administrativa trazida pela Lei 14.382/2022 sobre a alteração do prenome?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'certa', 'Gabarito! A lei desburocratizou, permitindo alterar o primeiro nome extrajudicialmente no cartório sem justificar ao juiz (1 vez).')">A) Maior de 18 anos pode alterar imotivadamente e direto no cartório (extrajudicial).</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O nome deixou de ser estritamente inalterável.')">B) O prenome é inalterável sob pena de prisão.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Essa é apenas uma exceção; a lei geral se ampliou.')">C) Só possível em programa de proteção de testemunhas.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A regra do cartório exige capacidade plena (18 anos).')">D) Menores de 12 podem mudar sem os pais.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 34</div><div class="slide-title">Testamento Vital</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Como os direitos da personalidade interagem com o Testamento Vital (Diretivas Antecipadas)?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'O CFM aceita a recusa à distanásia.')">A) É proibido por ferir a vida.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Perfeito. Amparado no Art. 15, garante que a pessoa recuse previamente tratamentos que causam sofrimento fútil no fim da vida.')">B) É a manifestação para recusar previamente tratamentos fúteis e dolorosos.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Venda de órgãos é crime hediondo.')">C) Para vender órgãos a hospitais.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A vontade do paciente supera o lucro comercial.')">D) O plano de saúde pode anular o documento.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica">
+<div class="slide-header"><div class="slide-num">Questão 35</div><div class="slide-title">Imagem em Estádio</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Foto de torcedores sofrendo a derrota em estádio gera direito a indenização pela imagem?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A jurisprudência flexibiliza para fotos coletivas e jornalísticas.')">A) Sim, toda foto de rosto exige contrato.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto. A captação em evento de multidão para fins de reportagem fática não ofende a imagem (se não houver humilhação focada).')">B) Não, imagem em multidão jornalística não ofende a imagem-retrato se não houver uso comercial.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O choro ali é parte da emoção pública do evento.')">C) Sim, o sofrimento anula a imprensa.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não perdem o direito, a regra foca no fato notório.')">D) Não, o torcedor perde os direitos no estádio.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica alerta">
+<div class="slide-header"><div class="slide-num">Análise PY</div><div class="slide-title">Art. 28 do CCP</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">De acordo com o CC Paraguaio (Art. 28), quando se inicia a capacidade de direito da pessoa física?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Maioridade atinge capacidade de exercício, não a de ter direitos.')">A) Inicia-se aos 18 anos.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! O CCP outorga expressamente capacidade desde a CONCEPÇÃO para adquirir bens/herança.')">B) Desde a concepção para adquirir bens por doação ou herança.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Regra de tempo de sobrevivência não consta na matriz moderna.')">C) Apenas se o feto viver 24 horas.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Capacidade é laica, independente de batismo.')">D) Apenas após o batismo religioso.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica alerta">
+<div class="slide-header"><div class="slide-num">Análise PY</div><div class="slide-title">Natimorto no Paraguai</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Segundo o CCP, o que ocorre com os direitos adquiridos pelo nascituro se nascer sem vida?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'O Estado não confisca herança não consolidada.')">A) Bens congelados pelo Estado por 10 anos.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Exato! Igual ao Brasil, os direitos ficam sem efeito; considera-se como se nunca houvesse existido civilmente.')">B) A lei considera como se nunca houvesse existido (ficam sem efeito).</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A herança nem foi consolidada na criança morta.')">C) Os pais herdam compulsoriamente.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O bem volta aos doadores ou monte mor original.')">D) A mãe ganha direito de repassar à Igreja.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica alerta">
+<div class="slide-header"><div class="slide-num">Análise PY</div><div class="slide-title">Imagem (Art. 31 CCP)</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Qual é a regra geral adotada pelo Código Civil Paraguaio sobre a publicação da imagem?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'Protege todos, não só autoridades.')">A) Só é protegida se for de autoridades.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A dignidade paraguaia exige consentimento.')">B) Imagem é domínio público irrestrito.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Perfeito! Exige consentimento, exceto justificado por interesse de polícia, histórico ou eventos públicos.')">C) Não pode ser publicada sem consentimento, exceto interesse histórico ou público.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Não há tarifa sindical para isso no CCP.')">D) Livre, desde que pague sindicato dos fotógrafos.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica alerta">
+<div class="slide-header"><div class="slide-num">Análise PY</div><div class="slide-title">Intimidade (Art. 33 CCP)</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">Como o CCP garante o Direito à Intimidade em caso de intromissão em fatos íntimos?</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'A intimidade se protege contra abusos jornalísticos.')">A) A intimidade cede sempre ao interesse jornalístico.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Correto! Garante que a ofensa cesse imediatamente e que haja o pagamento de indenização pelos danos.')">B) Aquele que ingerir na vida alheia deve cessar a lesão e pagar indenização.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A proteção atende nacionais e residentes por igual.')">C) Aplica-se apenas aos estrangeiros residentes.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'A reparação tem previsão explícita cível no Paraguai.')">D) A indenização é apenas da via penal.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide pratica alerta">
+<div class="slide-header"><div class="slide-num">Análise PY</div><div class="slide-title">Direito ao Nome</div><div class="title-line"></div></div>
+<div class="questao-box">
+<div class="q-enunciado">O Artigo 42 do Código Civil Paraguaio estabelece sobre o Direito ao Nome que:</div>
+<div class="q-opcoes">
+<button class="q-opcao" onclick="responder(this, 'errada', 'O nome é fora do comércio (extrapatrimonial).')">A) É privilégio que pode ser vendido na falência.</button>
+<button class="q-opcao" onclick="responder(this, 'certa', 'Gabarito! O nome é imprescritível e de imutabilidade relativa (só muda nas hipóteses de lei).')">B) É imprescritível e imutável fora dos casos fixados em lei.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'O nome ganha alto status existencial no Paraguai.')">C) O nome não tem proteção civil formal.</button>
+<button class="q-opcao" onclick="responder(this, 'errada', 'Ambos os códigos possuem regras rígidas contra mudanças fúteis.')">D) É permitido mudar de nome a cada 5 anos sem motivo.</button>
+</div>
+<div class="q-feedback"></div>
+</div>
+</div>
+
+<div class="slide capa">
+<div class="capa-inner">
+<div class="capa-title">Gabarito Finalizado!</div>
+<div class="capa-sub">D. Personalidade BR/PY - Prof. Adriano Március</div>
+<div class="badge" style="margin-top:20px;">MAGSUL - 2026</div>
+</div>
+</div>
+
+<div id="nav">
+<button class="nav-btn" onclick="prevSlide()">‹</button>
+<span id="slide-counter">1 / 42</span>
+<button class="nav-btn" onclick="nextSlide()">›</button>
+</div>
+
+<script>
+let current = 0;
+const slidesList = document.querySelectorAll(".slide");
+const totalSlides = slidesList.length;
+const counter = document.getElementById("slide-counter");
+const progressBar = document.getElementById("progress-bar");
+
+function showSlide(i) {
+    slidesList.forEach(s => s.classList.remove("active"));
+    slidesList[i].classList.add("active");
+    current = i;
+    counter.textContent = (current + 1) + " / " + totalSlides;
+    progressBar.style.width = ((current + 1) / totalSlides * 100) + "%";
+}
+
+function nextSlide() { if (current < totalSlides - 1) showSlide(current + 1); }
+function prevSlide() { if (current > 0) showSlide(current - 1); }
+
+function responder(btn, tipo, feedback) {
+    const box = btn.closest(".questao-box");
+    if (box.dataset.respondido) return;
+    box.dataset.respondido = "1";
+    btn.classList.add(tipo);
+    const fbDiv = box.querySelector(".q-feedback");
+    fbDiv.textContent = feedback;
+    fbDiv.className = "q-feedback " + tipo;
+    fbDiv.style.display = "block";
+}
+
+document.addEventListener("keydown", e => {
+    switch(e.key){
+        case "ArrowRight": case "PageDown": case " ": nextSlide(); break;
+        case "ArrowLeft": case "PageUp": prevSlide(); break;
+    }
+});
+
+const cur = document.getElementById("cursor");
+document.addEventListener("mousemove", e => {
+    cur.style.left = e.clientX - 7 + "px";
+    cur.style.top = e.clientY - 7 + "px";
+});
+document.addEventListener("mousedown", () => cur.classList.add("big"));
+document.addEventListener("mouseup", () => cur.classList.remove("big"));
+
+window.onload = () => showSlide(0);
+</script>
+</body>
+</html>
